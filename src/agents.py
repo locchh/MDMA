@@ -19,6 +19,18 @@ chat_agent = AssistantAgent(
 )
 
 # Mood Detector Agent
+mood_detector_agent = AssistantAgent(
+    name="mood_detector_agent",
+    model_client=OpenAIChatCompletionClient(
+        api_key=os.getenv("OPENAI_API_KEY"),
+        model="gpt-4.1-nano",
+        temperature=0
+    ),
+    system_message="""
+    You are a mood detector agent.
+    Your task is to detect the user's mood.
+    """,
+)
 
 
 # Music Selector Agent
