@@ -1,9 +1,22 @@
 import os
 from autogen_ext.models.openai import OpenAIChatCompletionClient
 from autogen_agentchat.agents import AssistantAgent
-from src.tools import web_search
+from src.tools import mock_web_search
+
 
 # Chat Agent
+chat_agent = AssistantAgent(
+    name="chat_agent",
+    model_client=OpenAIChatCompletionClient(
+        api_key=os.getenv("OPENAI_API_KEY"),
+        model="gpt-4.1-nano",
+        temperature=0
+    ),
+    system_message="""
+    You are a chat agent.
+    Your task is to chat with the user.
+    """,
+)
 
 
 # Mood Detector Agent
@@ -21,6 +34,5 @@ music_selector_agent = AssistantAgent(
     You are a music selector agent.
     Your task is to select music based on the user's mood.
     """,
-    tools=[web_search],
-    reflect_on_tool_use=True
+    tools=[mock_web_search],
 )

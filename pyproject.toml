@@ -7,6 +7,6 @@ requires-python = ">=3.10"
 dependencies = [
     "autogen-agentchat>=0.6.4",
     "autogen-ext[openai]>=0.6.4",
+    "ddgs>=9.3.1",
     "dotenv>=0.9.9",
-    "duckduckgo-search>=8.1.1",
 ]
