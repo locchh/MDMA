@@ -31,7 +31,7 @@ async def main():
 
     # Team
     team = RoundRobinGroupChat(
-        [user_proxy, chat_agent, mood_detector_agent, music_selector_agent],
+        [chat_agent, user_proxy, mood_detector_agent, music_selector_agent],
         termination_condition=termination
     )
 
