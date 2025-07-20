@@ -10,6 +10,7 @@ from autogen_agentchat.teams import RoundRobinGroupChat
 from autogen_agentchat.conditions import TextMentionTermination
 from src.agents import chat_agent
 
+
 async def spaced_input_handler(prompt: str, cancellation_token: Optional[CancellationToken] = None) -> str:
     """Input handler that adds proper spacing before the prompt"""
     # Small delay to ensure previous output is fully flushed
@@ -38,6 +39,7 @@ async def main():
     stream = team.run_stream()
     
     await Console(stream)
+
 
 if __name__ == "__main__":
 
