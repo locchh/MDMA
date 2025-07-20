@@ -8,7 +8,7 @@ from autogen_agentchat.ui import Console
 from autogen_agentchat.agents import UserProxyAgent
 from autogen_agentchat.teams import RoundRobinGroupChat
 from autogen_agentchat.conditions import TextMentionTermination
-from src.agents import chat_agent
+from src.agents import chat_agent, mood_detector_agent, music_selector_agent
 
 
 async def spaced_input_handler(prompt: str, cancellation_token: Optional[CancellationToken] = None) -> str:
@@ -31,7 +31,7 @@ async def main():
 
     # Team
     team = RoundRobinGroupChat(
-        [user_proxy, chat_agent],
+        [user_proxy, chat_agent, mood_detector_agent, music_selector_agent],
         termination_condition=termination
     )
 
