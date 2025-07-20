@@ -4,10 +4,10 @@ load_dotenv()
 
 from typing import Optional
 from autogen_core import CancellationToken
-from autogen_agentchat.ui import Console
 from autogen_agentchat.agents import UserProxyAgent
 from autogen_agentchat.teams import RoundRobinGroupChat
 from autogen_agentchat.conditions import TextMentionTermination
+from src.console import Console
 from src.agents import chat_agent, mood_detector_agent, music_selector_agent
 
 
