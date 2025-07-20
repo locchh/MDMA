@@ -1,19 +1,14 @@
-import warnings
-warnings.filterwarnings("ignore")
-
-from asyncio import run
+import asyncio
 from dotenv import load_dotenv
 load_dotenv()
 
-from autogen_agentchat.conditions import TextMentionTermination
-from autogen_agentchat.teams import RoundRobinGroupChat
-from autogen_agentchat.ui import Console
-from src.agents import chat_agent
-from autogen_agentchat.agents import UserProxyAgent
-import asyncio
-from autogen_core import CancellationToken
 from typing import Optional
-
+from autogen_core import CancellationToken
+from autogen_agentchat.ui import Console
+from autogen_agentchat.agents import UserProxyAgent
+from autogen_agentchat.teams import RoundRobinGroupChat
+from autogen_agentchat.conditions import TextMentionTermination
+from src.agents import chat_agent
 
 async def spaced_input_handler(prompt: str, cancellation_token: Optional[CancellationToken] = None) -> str:
     """Input handler that adds proper spacing before the prompt"""
@@ -23,7 +18,6 @@ async def spaced_input_handler(prompt: str, cancellation_token: Optional[Cancell
     print(prompt, end="", flush=True)
     loop = asyncio.get_event_loop()
     return await loop.run_in_executor(None, input)
-
 
 async def main():
     
@@ -47,4 +41,4 @@ async def main():
 
 if __name__ == "__main__":
 
-    run(main())
+    asyncio.run(main())

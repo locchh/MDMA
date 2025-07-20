@@ -18,7 +18,6 @@ chat_agent = AssistantAgent(
     """,
 )
 
-
 # Mood Detector Agent
 
 
