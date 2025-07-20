@@ -15,10 +15,11 @@ async def spaced_input_handler(prompt: str, cancellation_token: Optional[Cancell
     """Input handler that adds proper spacing before the prompt"""
     # Small delay to ensure previous output is fully flushed
     await asyncio.sleep(0.1)
-    # Add spacing before the prompt to separate it from previous output
-    print(prompt, end="", flush=True)
+    # Use simplified format for input prompt
+    print("user_proxy: ", end="", flush=True)
     loop = asyncio.get_event_loop()
     return await loop.run_in_executor(None, input)
+
 
 async def main():
     

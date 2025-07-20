@@ -172,32 +172,35 @@ async def Console(
         else:
             # Cast required for mypy to be happy
             message = cast(BaseAgentEvent | BaseChatMessage, message)  # type: ignore
-            if not streaming_chunks:
-                # Print message sender.
-                await aprint(
-                    f"{'-' * 10} {message.__class__.__name__} ({message.source}) {'-' * 10}", end="\n", flush=True
-                )
-            if isinstance(message, ModelClientStreamingChunkEvent):
-                await aprint(message.to_text(), end="", flush=True)
-                streaming_chunks.append(message.content)
-            else:
-                if streaming_chunks:
-                    streaming_chunks.clear()
-                    # Chunked messages are already printed, so we just print a newline.
-                    await aprint("", end="\n", flush=True)
-                elif isinstance(message, MultiModalMessage):
-                    await aprint(message.to_text(iterm=render_image_iterm), end="\n", flush=True)
+            
+            # Only display messages from chat_agent
+            if message.source in ["chat_agent"]:
+                if isinstance(message, ModelClientStreamingChunkEvent):
+                    # For streaming chunks, just show the content without the prefix
+                    await aprint(message.to_text(), end="", flush=True)
+                    streaming_chunks.append(message.content)
                 else:
-                    await aprint(message.to_text(), end="\n", flush=True)
-                if message.models_usage:
-                    if output_stats:
-                        await aprint(
-                            f"[Prompt tokens: {message.models_usage.prompt_tokens}, Completion tokens: {message.models_usage.completion_tokens}]",
-                            end="\n",
-                            flush=True,
-                        )
-                    total_usage.completion_tokens += message.models_usage.completion_tokens
-                    total_usage.prompt_tokens += message.models_usage.prompt_tokens
+                    if streaming_chunks:
+                        streaming_chunks.clear()
+                        # Chunked messages are already printed, so we just print a newline.
+                        await aprint("", end="\n", flush=True)
+                    elif isinstance(message, MultiModalMessage):
+                        # Format: source: content
+                        await aprint(f"{message.source}: {message.to_text(iterm=render_image_iterm)}", end="\n", flush=True)
+                    else:
+                        # Format: source: content
+                        await aprint(f"{message.source}: {message.to_text()}", end="\n", flush=True)
+                    
+                    # Still track token usage but don't display it unless output_stats is True
+                    if message.models_usage:
+                        if output_stats:
+                            await aprint(
+                                f"[Prompt tokens: {message.models_usage.prompt_tokens}, Completion tokens: {message.models_usage.completion_tokens}]",
+                                end="\n",
+                                flush=True,
+                            )
+                        total_usage.completion_tokens += message.models_usage.completion_tokens
+                        total_usage.prompt_tokens += message.models_usage.prompt_tokens
 
     if last_processed is None:
         raise ValueError("No TaskResult or Response was processed.")
